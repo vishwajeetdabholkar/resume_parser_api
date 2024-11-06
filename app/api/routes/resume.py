@@ -69,7 +69,7 @@ async def parse_resume(
                 detail=f"PDF processing failed: {pdf_result.get('error')}"
             )
         
-        if pdf_result.get("is_resume", False):
+        if not pdf_result.get("is_resume", False):
             logger.warning(f"[{process_id}] Document is not a resume")
             return JSONResponse(
                 status_code=422,
