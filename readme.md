@@ -14,6 +14,29 @@ A robust FastAPI-based service that processes resumes in PDF format, extracting 
 - Comprehensive logging and error handling
 - Configurable through environment variables
 
+## Flow of the code:
+```
+|----------------|     |----------------|     |----------------|
+|   PDF Upload   | --> |  PDF Service   | --> |   Validation   |
+|----------------|     |----------------|     |----------------|
+                           |      ^
+                           v      |
+                      |----------------|
+                      |  OCR Service   |
+                      |----------------|
+                           |      ^
+                           v      |
+|----------------|     |----------------|     |----------------|
+|   AI Service   | <-- | Text Process   | --> |   Embedding    |
+|----------------|     |----------------|     |   Generation   |
+       |                                      |----------------|
+       v
+|----------------|     |----------------|
+|  Structure     | --> |    Final       |
+|  Generation    |     |   Response     |
+|----------------|     |----------------|
+```
+
 ## Project Structure
 
 ```

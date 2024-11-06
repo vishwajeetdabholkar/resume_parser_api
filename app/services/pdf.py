@@ -110,6 +110,7 @@ class PDFService:
             extracted_text = ""
             has_tables = False
             pages_with_images = []
+            is_resume = False
             
             # Check for tables and images
             logger.debug("Scanning for tables and images")
@@ -198,10 +199,19 @@ class PDFService:
         ]
         
         text_lower = text.lower()
-        matches = sum(1 for keyword in resume_keywords if keyword in text_lower)
+        matches = sum(1 for keyword in resume_keywords 
+                 if any(word.startswith(keyword) 
+                       for word in text_lower.split()))
         
+        logger.debug(f"Found {matches} resume keywords in text")
+
+        min_required = 3 if len(text_lower.split()) < 200 else 4
+
+        is_resume = matches >= min_required
+        logger.info(f"Resume validation result: {is_resume} (matched {matches}/{min_required} required keywords)")
+
         # Require at least 3 resume keywords to consider it a valid resume
-        return matches >= 4
+        return is_resume
 
     def _extract_plain_text_links(self, text: str) -> List[str]:
         """Extract valid URLs from plain text."""
@@ -254,7 +264,8 @@ class PDFService:
             return {
                 "status": True,
                 "cleaned_text": text_result["cleaned_text"],
-                "links": all_links
+                "links": all_links,
+                "is_resume": text_result.get("is_resume", False)
             }
             
         except Exception as e:
