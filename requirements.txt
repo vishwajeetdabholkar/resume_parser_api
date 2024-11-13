@@ -11,3 +11,4 @@ python-dotenv==1.0.1
 python-multipart==0.0.17
 tiktoken==0.8.0
 uvicorn==0.32.0
+propeller-lib==0.0.3
