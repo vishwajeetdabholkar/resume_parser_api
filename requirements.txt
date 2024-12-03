@@ -8,7 +8,7 @@ pillow==11.0.0
 PyPDF2==3.0.1
 pytesseract==0.3.13
 python-dotenv==1.0.1
-python-multipart==0.0.17
+python-multipart==0.0.18
 tiktoken==0.8.0
 uvicorn==0.32.0
 propeller-lib==0.0.3
