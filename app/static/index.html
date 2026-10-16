@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ResumeParser · Open-source resume parsing API</title>
+  <meta name="description" content="A single, self-hosted API to extract structured data from resumes.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23111'/><text x='16' y='22' font-family='Arial' font-weight='700' font-size='16' fill='white' text-anchor='middle'>R</text></svg>">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#home">ResumeParser</a>
+    <nav>
+      <a href="#home" data-page="home">
+        <svg viewBox="0 0 24 24"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"/></svg>Home
+      </a>
+      <a href="#get-started" data-page="get-started">
+        <svg viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></svg>Get started
+      </a>
+      <a href="#code-snippet" data-page="code-snippet">
+        <svg viewBox="0 0 24 24" class="stroke"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"/></svg>Code snippet
+      </a>
+      <a href="#extracted-data" data-page="extracted-data">
+        <svg viewBox="0 0 24 24"><path d="M3 3h5v5H3zM10 3h4v4h-4zM16 3h5v5h-5zM3 10h4v4H3zM9 9h6v6H9zM17 10h4v4h-4zM3 16h5v5H3zM10 17h4v4h-4zM16 16h5v5h-5z"/></svg>Extracted data
+      </a>
+    </nav>
+    <div class="sidebar-actions">
+      <a class="btn btn-dark" href="https://github.com/vishwajeetdabholkar/resume_parser_api" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="btn btn-outline" href="/docs" target="_blank" rel="noopener">API reference</a>
+    </div>
+  </aside>
+
+  <main>
+    <section class="page hero" id="home">
+      <h1>ResumeParser</h1>
+      <h2>A single API to extract data from resumes.</h2>
+      <p class="taglines">
+        <span>Radically accurate.</span>
+        <span>Radically cheap.</span>
+        <span>Radically easy to self-host.</span>
+      </p>
+      <div class="cta">
+        <a class="btn btn-dark" href="#get-started">Get started</a>
+        <small>Open source · Apache 2.0 · No sign-up required.</small>
+      </div>
+    </section>
+
+    <section class="page" id="get-started" hidden>
+      <header class="page-header">Get started</header>
+      <div class="block">
+        <h3>What you need to do</h3>
+        <ol class="steps">
+          <li><span>1</span>Clone the <a href="https://github.com/vishwajeetdabholkar/resume_parser_api" target="_blank" rel="noopener">repository</a> and set <code>TOGETHER_API_KEY</code> in <code>.env</code>.</li>
+          <li><span>2</span>Run <code>docker compose up -d --build</code>.</li>
+          <li><span>3</span>Copy-paste the <a href="#code-snippet">code snippet</a> to call your API.</li>
+        </ol>
+      </div>
+      <div class="block prose">
+        <h3>How it works</h3>
+        <ul>
+          <li>The code snippet is a simple HTTPS request that sends the resume to your API.</li>
+          <li>Text is read from the PDF; scanned pages are OCR'd automatically.</li>
+          <li>An LLM fills a strict JSON schema, and the result is validated before it is returned.</li>
+          <li>Experience is calculated in code, merging overlapping roles so nothing is double counted.</li>
+        </ul>
+        <h3>Details</h3>
+        <ul>
+          <li>Accepted format: <code>.pdf</code>, up to 10 MB and 10 pages (configurable).</li>
+          <li>Accepted content: resumes in any language. Other documents are rejected.</li>
+          <li>Typical latency: 2–5 seconds per resume, about $0.001 in model cost.</li>
+        </ul>
+        <h3>Private by design</h3>
+        <ul>
+          <li>Nothing is stored: files are processed in memory and discarded once the response is sent.</li>
+          <li>You host it: run it in your own cloud, region, and network.</li>
+          <li>Resume text is sent only to the Together AI model you configure, never to third-party hosted models.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="page" id="code-snippet" hidden>
+      <header class="page-header">Code snippet</header>
+      <div class="block prose">
+        <h3>Send the resume as a multipart file upload.</h3>
+        <ul>
+          <li>Snippets below point at this server: <code class="origin"></code></li>
+          <li>Every response has the same fixed shape; see <a href="#extracted-data">Extracted data</a>.</li>
+        </ul>
+      </div>
+      <div class="block">
+        <div class="tabs" data-tabs="snippet">
+          <button class="tab active" data-tab="curl">:// cURL</button>
+          <button class="tab" data-tab="python">Python</button>
+          <button class="tab" data-tab="node">Node.js</button>
+        </div>
+        <div class="toolbar">
+          <button class="btn btn-dark btn-sm" data-copy="snippet">Copy code</button>
+        </div>
+        <div class="code-window"><pre><code id="snippet"></code></pre></div>
+      </div>
+    </section>
+
+    <section class="page" id="extracted-data" hidden>
+      <header class="page-header">Extracted data</header>
+      <div class="block prose">
+        <h3>The API returns a JSON object with:</h3>
+        <ul>
+          <li><b>profile</b>: an object with all the extracted data.</li>
+          <li><b>cv_language</b>: the language of the CV.</li>
+          <li><b>cv_text</b>: the full text of the CV.</li>
+        </ul>
+      </div>
+      <div class="block">
+        <div class="tabs" data-tabs="data">
+          <button class="tab active" data-tab="example">{..} Data example</button>
+          <button class="tab" data-tab="schema">{ } JSON schema</button>
+          <button class="tab" data-tab="result" hidden>Your result</button>
+        </div>
+        <p class="note-title">When some profile data is not found in the original CV:</p>
+        <ul class="note">
+          <li>String value is set to <code>""</code> by default.</li>
+          <li>Integer value is set to <code>null</code> by default.</li>
+          <li>Enum value is set to <code>null</code> by default.</li>
+        </ul>
+        <div class="toolbar">
+          <button class="btn btn-outline btn-sm" data-copy="data-json">Copy</button>
+          <button class="btn btn-outline btn-sm" id="download">Download</button>
+        </div>
+        <div class="code-window"><pre><code id="data-json"></code></pre></div>
+      </div>
+    </section>
+
+    <footer>Open source under Apache 2.0 · Self-hosted · Nothing is stored.</footer>
+  </main>
+
+  <aside class="try">
+    <h2>Try it</h2>
+    <label class="btn btn-ghost" id="upload-label">
+      Upload a CV
+      <input type="file" id="file" accept="application/pdf,.pdf" hidden>
+    </label>
+    <p class="hint">or drop a PDF here</p>
+    <div id="status" class="status" hidden></div>
+    <div id="summary" class="summary" hidden></div>
+    <p class="try-footer">
+      Built with FastAPI and Together AI.<br>
+      Our goal: make precise resume data free and private for every team, no matter their size.
+    </p>
+  </aside>
+
+  <script src="/app.js"></script>
+</body>
+</html>

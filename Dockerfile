@@ -1,33 +1,29 @@
-FROM ubuntu:22.04
+FROM python:3.12-slim
 
-# Install system dependencies and cleanup
-RUN apt-get update && apt-get install -y \
-    tesseract-ocr \
-    tesseract-ocr-eng \
-    libtesseract-dev \
-    libleptonica-dev \
-    python3 \
-    python3-pip \
-    && apt-get clean \
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    WEB_CONCURRENCY=2
+
+# Tesseract's OpenMP threads fight with concurrent requests; one thread per OCR call scales better.
+ENV OMP_THREAD_LIMIT=1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends tesseract-ocr poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
 WORKDIR /app
-
-# Copy requirements file
 COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Install Python dependencies including propeller
-RUN pip3 install -r requirements.txt
+COPY app ./app
 
-# Copy application files
-COPY . .
+RUN useradd --uid 10001 --no-create-home appuser
+USER appuser
 
-# Environment variables for Tesseract
-ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"
 
-# Expose port 8080
-EXPOSE 8080
-
-# Default command
-CMD ["python3", "-m", "http.server", "8080"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--no-access-log"]

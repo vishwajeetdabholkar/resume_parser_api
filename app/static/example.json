@@ -1,0 +1,66 @@
+{
+  "profile": {
+    "basics": {
+      "first_name": "Jean",
+      "last_name": "Dujardin",
+      "gender": "male",
+      "emails": ["jean.dujardin@example.com"],
+      "urls": ["example.com", "github.com/jean-dujardin-123456789", "linkedin.com/in/jean-dujardin-123456789"],
+      "phone_numbers": ["1234567890"],
+      "date_of_birth": { "year": 1992, "month": 7, "day": 14 },
+      "address": "1 Avenue des Champs-Élysées, 75008 Paris, France",
+      "total_experience_in_years": 11,
+      "profession": "AI Software Engineer",
+      "summary": "Experienced software engineer with a passion for creating complex AI systems.\nSkilled at writing clear, concise code that is easy to maintain and troubleshoot.",
+      "skills": ["Python", "Node.js", "Kubernetes", "Tensorflow"],
+      "has_driving_license": true
+    },
+    "languages": [
+      { "name": "French", "iso_code": "fr", "fluency": 5 },
+      { "name": "English", "iso_code": "en", "fluency": 3 }
+    ],
+    "educations": [
+      {
+        "start_year": 2012,
+        "is_current": false,
+        "end_year": 2015,
+        "issuing_organization": "École Polytechnique",
+        "description": "Master in Computer Science"
+      }
+    ],
+    "trainings_and_certifications": [
+      { "year": 2016, "issuing_organization": "Coursera", "description": "Advanced AI Developer Certification" }
+    ],
+    "professional_experiences": [
+      {
+        "start_date": { "year": 2015, "month": 7 },
+        "is_current": true,
+        "end_date": { "year": 2026, "month": 10 },
+        "duration_in_months": 136,
+        "company": "Mistral AI",
+        "location": "Paris",
+        "title": "Software Engineer",
+        "description": "Worked on various web projects using Python, Node.js, Kubernetes and Tensorflow.\nDeveloped powerful AI models to release for the world to use freely."
+      }
+    ],
+    "awards": [
+      {
+        "year": 2023,
+        "title": "Best AI croissant maker.",
+        "description": "Won the company tournament of developing an AI assistant to cook top parisian croissants."
+      }
+    ],
+    "references": [
+      {
+        "full_name": "Sarah Bernhardt",
+        "phone_number": "9876543210",
+        "email": "sarah.bernhardt@example.com",
+        "company": "Hugging Face",
+        "position": "AI Product Manager",
+        "description": "Led our team in our latest AI product."
+      }
+    ]
+  },
+  "cv_language": "en",
+  "cv_text": "Jean Dujardin\nAI Software Engineer\n... [all the text of the original CV]"
+}
